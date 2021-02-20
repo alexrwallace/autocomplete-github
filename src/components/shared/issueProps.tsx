@@ -1,6 +1,6 @@
-import { LabelProps } from "../shared/labelProps";
+import { LabelProps } from "./labelProps";
 
-export interface ResultProps {
+export interface IssueProps {
     title: string,
     body: string,
     state: string,

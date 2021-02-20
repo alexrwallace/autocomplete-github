@@ -1,25 +1,19 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { SearchPage } from './components/searchPage/searchPage';
+import { IssueProps } from './components/shared/issueProps';
+import useFetch from './hooks/useFetch';
 
 function App() {
+  let url = `https://api.github.com/repos/facebook/react/issues`
+  const requestHeaders = {
+    Accept: 'application/vnd.github.v3+json'
+  }
+  const { status, data, headers, error } = useFetch<IssueProps[]>(url, {headers: requestHeaders})
+
+  console.log({ status, data, headers, error })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <SearchPage issues={data} />
   );
 }
 

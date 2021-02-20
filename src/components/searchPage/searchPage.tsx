@@ -4,9 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { Autocomplete } from '../autocomplete/autocomplete';
 import { Results } from '../results/results';
+import { IssueProps } from '../shared/issueProps';
 import logo from './logo.svg';
 import './searchpage.css';
-import { useRef } from '@storybook/addons';
+
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -30,25 +31,31 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-export const SearchPage: React.FunctionComponent = () => {
-    const classes = useStyles();
-    const [autocompleteResults, setAutocompleteResults] = React.useState([]);
-    const [autoCompleteString, setAutoCompleteString] = React.useState('')
-    const [cachedResults, setCachedResults] = React.useState([]);
-    const [searchResults, setSearchResults] = React.useState([]);
+  export interface SearchPageProps {
+    issues?: Array<IssueProps>,
+  }
 
-    const getResults = (text:string | null) => {
+
+export const SearchPage: React.FunctionComponent<SearchPageProps> = ({
+    issues = []
+}) => {
+    const classes = useStyles();
+    const [autocompleteResults, setAutocompleteResults] = React.useState<Array<string>>([]);
+    const [autoCompleteString, setAutoCompleteString] = React.useState('')
+    const [cachedResults, setCachedResults] = React.useState<Array<IssueProps>>([]);
+    const [searchResults, setSearchResults] = React.useState<Array<IssueProps>>([]);
+
+    const getIssueResults = (text:string | null) => {
         if(!text) return [];
 
-        const testData =  require('../shared/testfile.json');
-        return testData.filter((data) => data.title.includes(text));
+        return issues.filter((data: IssueProps) => data.title.includes(text));
     }
 
     const onAutocompleteChange = (text: string) => {
         setAutoCompleteString(text);
-        const results = getResults(text);
-        setCachedResults(results);
-        const autoCompleteResults = results.map((data: { title: any; })  => data.title);
+        const issueResults = getIssueResults(text);
+        setCachedResults(issueResults);
+        const autoCompleteResults = issueResults.map((data: { title: any; })  => data.title);
         setAutocompleteResults(autoCompleteResults)
     }
     const onAutocompeteComplete = (text: string | null) => {

@@ -30,14 +30,14 @@ export const Results: React.FunctionComponent<ResultsProps> = ({
             return active + 1;
       }
 
-    const upDownHandler = (event: Event) => {
+    const upDownHandler = (event:any) => {
         // Never go to negative values or value higher than the list length
         console.log(event.key)
         const activeItem = event.key === DOWN ? moveDown() : moveUp()
         setActive(activeItem)
       }
 
-    const keyHandler = (event: Event) => {
+    const keyHandler = (event:any) => {
         switch (event.key) {
             case UP:
             case DOWN:

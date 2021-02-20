@@ -8,7 +8,7 @@ import PriorityHighRoundedIcon from '@material-ui/icons/PriorityHighRounded';
 import CloseRounded from '@material-ui/icons/CloseRounded';
 import Help from '@material-ui/icons/Help';
 import { Chip, Divider } from '@material-ui/core';
-import { LabelProps } from './labelprops';
+import {LabelProps} from '../shared/labelProps';
 import { ResultProps } from './resultprops';
 
 const useStyles = makeStyles((theme) => ({

@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import SearchPage from './searchPage';
+import {SearchPage} from './searchPage';
 
-test('renders learn react link', () => {
+test('renders input box', () => {
   render(<SearchPage />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const inputElement = screen.getByPlaceholderText("search issue titles")
+  expect(inputElement).toBeInTheDocument();
 });

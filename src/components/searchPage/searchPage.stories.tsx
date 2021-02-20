@@ -9,6 +9,14 @@ export default {
   component: SearchPage,
 } as Meta;
 
-const Template: Story = () => <SearchPage />;
+const Template: Story = (args) => <SearchPage {...args} />;
 
 export const Empty = Template.bind({});
+Empty.args = {
+    issues: [],
+};
+
+export const CanSearchIssues = Template.bind({});
+CanSearchIssues.args = {
+    issues: testData,
+};

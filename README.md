@@ -50,3 +50,10 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+## Storybook
+
+### `yarn storybook`
+
+Launches storybook.\
+See storybooks [website](https://storybook.js.org/) for more information.

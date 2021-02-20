@@ -12,7 +12,7 @@ export const AutoCompleteSuggestion: React.FunctionComponent<AutoCompleteSuggest
 
     let renderedSuggestion = <>{suggestion}</>;
     if(suggestion != null && searchTerm != null && searchTerm != '' ){
-        const renderedTermArray = [];
+        const renderedTermArray: Array<JSX.Element> = [];
         const split = suggestion.split(searchTerm);
         split.map((item, index) => {
             if(index != split.length -1){

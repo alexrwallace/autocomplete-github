@@ -9,7 +9,7 @@ test('renders input box', () => {
 });
 
 test('renders input box', () => {
-  const suggestions = [{id: '1', title: 'test'}]
+  const suggestions = ['test']
   render(<Autocomplete suggestions={suggestions} />);
   const suggestionDiv = screen.getByText("test")
   expect(suggestionDiv).toBeInTheDocument();

@@ -7,13 +7,13 @@ import {AutocompleteListItem} from './autocompleteListItem'
 export interface AutocompleteProps {
     suggestions?: Array<string>
     onChange?: (text: string) => void;
-    onSelected? : (suggestion: any) => void;
+    onComplete? : (text: string|null) => void;
   }
 
 export const Autocomplete: React.FunctionComponent<AutocompleteProps> = ({
     suggestions = [],
     onChange = () => {},
-    onSelected = () => {},
+    onComplete = () => {},
 }) => {
     const DOWN = 'ArrowDown'
     const ENTER = 'Enter'
@@ -22,13 +22,17 @@ export const Autocomplete: React.FunctionComponent<AutocompleteProps> = ({
 
   const [value, setValue] = React.useState('');
   const [active, setActive] = React.useState(-1);
-  const [suggestionList, setSuggestionList]= React.useState(suggestions);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setValue(newValue);
     onChange(newValue);
   };
+
+  const onFocus = () =>{
+    setValue(value);
+    onChange(value);
+  }
 
   const moveUp = () => {
     if(active === -1)
@@ -38,7 +42,7 @@ export const Autocomplete: React.FunctionComponent<AutocompleteProps> = ({
   }
   
   const moveDown = () => {
-    if(active === suggestionList.length - 1)
+    if(active === suggestions.length - 1)
         return active;
     else
         return active + 1;
@@ -46,19 +50,22 @@ export const Autocomplete: React.FunctionComponent<AutocompleteProps> = ({
 
   const enterHandler = () => {
     if(active != -1) {
-        onSelected(value)
+        onComplete(value)
     }
     else{
-        const suggestion = suggestionList[active];
+        const suggestion = suggestions[active];
         setValue(suggestion)
-        onSelected(suggestionList[active])
+        onComplete(suggestion)
     }
-    
-    setSuggestionList([])
   }
 
   const escapeHandler = () => {
-    setSuggestionList([])
+    onComplete(null)
+  }
+
+  const onSelected = (text:string) => {
+    setValue(text)
+    onComplete(text)
   }
 
   const upDownHandler = (event: React.KeyboardEvent) => {
@@ -88,18 +95,19 @@ export const Autocomplete: React.FunctionComponent<AutocompleteProps> = ({
     return <AutocompleteListItem index={index} suggestion={suggestion} onSelected={onSelected} selected={active == index} searchTerm={value} />;
   };
 
-  const hasSuggestions = suggestionList.length > 0;
+  const hasSuggestions = suggestions.length > 0;
 
   return (
     <div>
       <TextField
         fullWidth
         onChange={handleChange}
+        onFocus={onFocus}
         onKeyDown={handleKeyDown}
         value={value}
         placeholder="search issue titles"
       />
-      {hasSuggestions && <Paper>{suggestionList.map(renderSuggestionElement)}</Paper>}
+      {hasSuggestions && <Paper>{suggestions.map(renderSuggestionElement)}</Paper>}
     </div>
   );
 };

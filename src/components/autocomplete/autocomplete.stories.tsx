@@ -4,7 +4,8 @@ import { Story, Meta } from '@storybook/react/types-6-0';
 import { Autocomplete } from '../autocomplete/autocomplete';
 
 const testData = require('../shared/testfile.json');
-const testSuggestions = testData.map(data => data.title);
+
+const testSuggestions = testData.map((data: { title: any; })  => data.title);
 
 export default {
   title: 'Autocomplete',
@@ -34,7 +35,7 @@ CallsOnChange.args = {
 export const ItemClicked = Template.bind({});
 ItemClicked.args = {
     suggestions: testSuggestions,
-    onSelected: (selectedItem: any) =>{
-        alert('item selected:' + JSON.stringify(selectedItem))
+    onComplete: (text: string) =>{
+        alert('item selected:' + text)
     },
 };

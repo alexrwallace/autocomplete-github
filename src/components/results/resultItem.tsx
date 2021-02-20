@@ -8,6 +8,8 @@ import PriorityHighRoundedIcon from '@material-ui/icons/PriorityHighRounded';
 import CloseRounded from '@material-ui/icons/CloseRounded';
 import Help from '@material-ui/icons/Help';
 import { Chip, Divider } from '@material-ui/core';
+import { LabelProps } from './labelprops';
+import { ResultProps } from './resultprops';
 
 const useStyles = makeStyles((theme) => ({
     inline: {
@@ -28,18 +30,20 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 export interface ResultItemProps {
-    result?: any,
+    result?: ResultProps,
+    isActive?: boolean
   }
 
 export const ResultItem: React.FunctionComponent<ResultItemProps> = ({
     result = null,
+    isActive = false
 }) => {
     const classes = useStyles();
     const OPEN = 'open'
     const CLOSED = 'closed'
 
-    if(!result) return null;
 
+    if(!result) return null;
     const renderStatus = () => {
         switch (result.state) {
             case CLOSED:
@@ -59,8 +63,8 @@ export const ResultItem: React.FunctionComponent<ResultItemProps> = ({
     }
 
     const renderLabels = () => {
-        return result.labels.map((label) => {
-        const style = {
+        return result.labels.map((label: LabelProps) => {
+            const style = {
                 borderColor: `#${label.color}`,
                 borderWidth: '2px'
             }
@@ -68,7 +72,14 @@ export const ResultItem: React.FunctionComponent<ResultItemProps> = ({
         })
     }
 
-    return <ListItem alignItems="flex-start">
+    let style = {};
+    if(isActive) {
+        style = {
+            backgroundColor:'#b7edea'
+        }
+    }
+    
+    return <ListItem alignItems="flex-start" style={style}>
             <ListItemAvatar>
                 {renderStatus()}
             </ListItemAvatar>
@@ -77,6 +88,8 @@ export const ResultItem: React.FunctionComponent<ResultItemProps> = ({
                 secondary={
                 <React.Fragment>
                     {result.body}
+                    <Divider />
+                    <b>Opened: </b>{result.created_at}
                     <Divider />
                     {renderLabels()}
                 </React.Fragment>
